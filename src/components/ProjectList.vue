@@ -1,9 +1,9 @@
 <template>
   <div class="project-list">
     <h2>GitHub Projekte</h2>
-    <div v-if="projects.length">
+    <div v-if="filteredProjects.length">
       <ul class="project-list__items">
-        <li v-for="project in projects" :key="project.id" class="project-list__item">
+        <li v-for="project in filteredProjects" :key="project.id" class="project-list__item">
           <a :href="project.html_url" target="_blank" class="project-list__link">{{ project.name }}</a>
           <p class="project-list__description">{{ project.description }}</p>
         </li>
@@ -19,19 +19,34 @@
 import githubService from '../services/githubService.js';
 
 export default {
+  props: ['searchQuery'],
   data() {
     return {
-      projects: []
+      projects: [],
+      filteredProjects: []
     };
   },
   mounted() {
     githubService.getUserRepos('deinbenutzername')
       .then(response => {
         this.projects = response.data;
+        this.filteredProjects = this.projects;
       })
       .catch(error => {
         console.error('Fehler beim Abrufen der GitHub Projekte:', error);
       });
+  },
+  watch: {
+    searchQuery(newQuery) {
+      this.filterRepos(newQuery);
+    }
+  },
+  methods: {
+    filterRepos(query) {
+      this.filteredProjects = this.projects.filter(project =>
+        project.name.toLowerCase().includes(query.toLowerCase())
+      );
+    }
   }
 };
 </script>
