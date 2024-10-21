@@ -1,29 +1,37 @@
+<!-- ProjectList.vue -->
+
 <template>
-  <div class="project-list">
-    <h2>GitHub Projekte</h2>
-    <div v-if="filteredProjects.length">
-      <ul class="project-list__items">
-        <li v-for="project in filteredProjects" :key="project.id" class="project-list__item">
-          <a :href="project.html_url" target="_blank" class="project-list__link">{{ project.name }}</a>
-          <p class="project-list__description">{{ project.description }}</p>
-        </li>
-      </ul>
+  <section id="portfolio" class="main-section fade-in">
+    <div class="container">
+      <h2>Mein Portfolio</h2>
+      <div class="project-list__search">
+        <input type="text" v-model="searchQuery" placeholder="Projekte suchen..." @input="filterRepos" />
+      </div>
+      <div v-if="filteredProjects.length">
+        <div class="project-list__grid">
+          <div v-for="project in filteredProjects" :key="project.id" class="card project-list__item">
+            <h3>{{ project.name }}</h3>
+            <p>{{ project.description }}</p>
+            <a :href="project.html_url" target="_blank">Zum Projekt</a>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <p>Keine Projekte gefunden...</p>
+      </div>
     </div>
-    <div v-else>
-      <p>Keine Projekte gefunden...</p>
-    </div>
-  </div>
+  </section>
 </template>
 
 <script>
 import githubService from '../services/githubService.js';
 
 export default {
-  props: ['searchQuery'],
   data() {
     return {
       projects: [],
-      filteredProjects: []
+      filteredProjects: [],
+      searchQuery: ''
     };
   },
   mounted() {
@@ -36,15 +44,10 @@ export default {
         console.error('Fehler beim Abrufen der GitHub Projekte:', error);
       });
   },
-  watch: {
-    searchQuery(newQuery) {
-      this.filterRepos(newQuery);
-    }
-  },
   methods: {
-    filterRepos(query) {
+    filterRepos() {
       this.filteredProjects = this.projects.filter(project =>
-        project.name.toLowerCase().includes(query.toLowerCase())
+        project.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
   }
@@ -52,36 +55,37 @@ export default {
 </script>
 
 <style scoped>
-.project-list {
-  padding: 20px;
-  background-color: #1f1f1f;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.project-list__search {
+  margin-bottom: 20px;
 }
 
-.project-list__items {
-  list-style: none;
-  padding: 0;
+.project-list__search input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+}
+
+.project-list__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .project-list__item {
+  width: 100%;
   margin-bottom: 20px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 10px;
 }
 
-.project-list__link {
-  color: #bb86fc;
-  text-decoration: none;
-  font-weight: bold;
+@media (min-width: 768px) {
+  .project-list__item {
+    width: 48%;
+  }
 }
 
-.project-list__link:hover {
-  text-decoration: underline;
-}
-
-.project-list__description {
-  margin-top: 5px;
-  color: #e0e0e0;
+@media (min-width: 1024px) {
+  .project-list__item {
+    width: 30%;
+  }
 }
 </style>

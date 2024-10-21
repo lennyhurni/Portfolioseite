@@ -1,57 +1,83 @@
+/* global.css */
+
 /* Reset und allgemeine Styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
-    color: #e0e0e0;
-    background-color: #121212;
-  }
-  
-  .header {
-    background-color: #1f1f1f;
-    padding: 20px;
-    color: #fff;
-    text-align: center;
-  }
-  
-  .footer {
-    background-color: #1f1f1f;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  button {
-    background: #e74c3c;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
-    border-radius: 5px;
-  }
-  
-  button:hover {
-    background: #c0392b;
-  }
-  
-  /* Responsive Styles */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #4e54c8;
+  --secondary-color: #8f94fb;
+  --accent-color: #ff6b6b;
+  --background-color: #f5f6fa;
+  --text-color: #2f3640;
+  --white: #ffffff;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: var(--accent-color);
+  color: var(--white);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: darken(var(--accent-color), 10%);
+}
+
+/* Utility Klassen */
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
   .container {
-    display: flex;
-    flex-wrap: wrap;
+    width: 80%;
   }
-  
-  @media (min-width: 768px) {
-    body {
-      font-size: 1.2rem;
-    }
-  
-    .header, .footer {
-      padding: 30px;
-    }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 70%;
   }
+}

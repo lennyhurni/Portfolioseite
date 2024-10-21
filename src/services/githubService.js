@@ -1,8 +1,10 @@
+// githubService.js
+
 import axios from 'axios';
 
 const githubService = {
-  getUserRepos(username) {
-    return axios.get(`https://api.github.com/users/${username}/repos`);
+  getUserRepos() {
+    return axios.get(`https://api.github.com/users/lennyhurni/repos`);
   }
 };
 
