@@ -7,6 +7,7 @@
   box-sizing: border-box;
 }
 
+/* Light Theme */
 :root {
   --primary-color: #4e54c8;
   --secondary-color: #8f94fb;
@@ -16,11 +17,21 @@
   --white: #ffffff;
 }
 
+/* Dark Theme */
+[data-theme="dark"] {
+  --primary-color: #bb86fc;
+  --secondary-color: #3700b3;
+  --accent-color: #03dac6;
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --white: #ffffff;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   line-height: 1.6;
-  color: var(--text-color);
   background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -47,10 +58,9 @@ button {
 }
 
 button:hover {
-  background-color: darken(var(--accent-color), 10%);
+  background-color: #ff4c4c; /* etwas dunkleres Rot */
 }
 
-/* Utility Klassen */
 .container {
   width: 90%;
   margin: 0 auto;

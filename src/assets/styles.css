@@ -2,96 +2,100 @@
 
 /* Header Styles */
 .header {
-    background-image: url('../assets/Images/background.jpg');
-    background-size: cover;
-    background-position: center;
-    color: var(--white);
-    text-align: center;
-    padding: 100px 0;
+  background-image: url('../assets/Images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: var(--white);
+  text-align: center;
+  padding: 100px 0;
+  position: relative;
+}
+
+.header__logo {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.nav {
+  margin-top: 20px;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nav ul li {
+  margin: 10px 15px;
+}
+
+.nav ul li a {
+  color: var(--white);
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Footer Styles */
+.footer {
+  background-color: var(--primary-color);
+  color: var(--white);
+  text-align: center;
+  padding: 20px;
+}
+
+/* Main Sections */
+.main-section {
+  padding: 60px 0;
+}
+
+.main-section:nth-child(even) {
+  background-color: var(--background-color);
+}
+
+.main-section:nth-child(odd) {
+  background-color: var(--white);
+}
+
+/* Cards */
+.card {
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+}
+
+/* Widgets */
+.widget {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 1s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
-  
-  .header__logo {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .nav {
-    margin-top: 20px;
-  }
-  
-  .nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .nav ul li {
-    margin: 10px 15px;
-  }
-  
-  .nav ul li a {
-    color: var(--white);
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
-  .nav ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Footer Styles */
-  .footer {
-    background-color: var(--primary-color);
-    color: var(--white);
-    text-align: center;
-    padding: 20px;
-  }
-  
-  /* Main Sections */
-  .main-section {
-    padding: 60px 0;
-  }
-  
-  .main-section:nth-child(even) {
-    background-color: var(--background-color);
-  }
-  
-  .main-section:nth-child(odd) {
-    background-color: var(--white);
-  }
-  
-  /* Cards */
-  .card {
-    background-color: var(--white);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px;
-  }
-  
-  /* Widgets */
-  .widget {
-    background-color: var(--secondary-color);
-    color: var(--white);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-  }
-  
-  /* Animations */
-  .fade-in {
-    animation: fadeIn 1s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
+}
+
+/* Hover-Effekte */
+.button:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s;
+}
