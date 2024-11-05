@@ -10,21 +10,23 @@
 /* Light Theme */
 :root {
   --primary-color: #4e54c8;
-  --secondary-color: #8f94fb;
+  --secondary-color: #f8f9fa;
   --accent-color: #ff6b6b;
-  --background-color: #f5f6fa;
+  --background-color: #ffffff;
   --text-color: #2f3640;
   --white: #ffffff;
+  --border-color: #e1e1e1;
 }
 
 /* Dark Theme */
 [data-theme="dark"] {
   --primary-color: #bb86fc;
-  --secondary-color: #3700b3;
+  --secondary-color: #1a1a1a;
   --accent-color: #03dac6;
   --background-color: #121212;
-  --text-color: #e0e0e0;
+  --text-color: #e5e5e7;
   --white: #ffffff;
+  --border-color: #2c2c2e;
 }
 
 body {
@@ -90,4 +92,107 @@ button:hover {
   .container {
     width: 70%;
   }
+}
+
+/* styles.css */
+
+/* Header Styles */
+.header {
+  background-image: url('../assets/Images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: var(--white);
+  text-align: center;
+  padding: 100px 0;
+  position: relative;
+}
+
+.header__logo {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.nav {
+  margin-top: 20px;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nav ul li {
+  margin: 10px 15px;
+}
+
+.nav ul li a {
+  color: var(--white);
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Footer Styles */
+.footer {
+  background-color: var(--secondary-color); /* Ensure footer matches dark mode */
+  color: var(--white);
+  text-align: center;
+  padding: 20px;
+}
+
+/* Main Sections */
+.main-section {
+  padding: 60px 0;
+  background-color: var(--background-color); /* Use variable for background */
+}
+
+.main-section:nth-child(even) {
+  background-color: var(--background-color);
+}
+
+.main-section:nth-child(odd) {
+  background-color: var(--white);
+}
+
+/* Cards */
+.card {
+  background-color: var(--secondary-color); /* Use secondary color for cards */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+}
+
+/* Widgets */
+.widget {
+  background-color: var(--secondary-color); /* Consistent with dark mode */
+  color: var(--white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 1s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Hover-Effekte */
+.button:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s;
 }

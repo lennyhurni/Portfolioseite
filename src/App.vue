@@ -1,3 +1,4 @@
+<!-- filepath: /c:/EWEB/portfolio_page/portfolio-vue/src/App.vue -->
 <template>
   <div id="app" :data-theme="currentTheme">
     <header class="header">
@@ -83,12 +84,13 @@ export default {
   justify-content: space-between;
   align-items: center;
   background-color: var(--background-color);
-  padding: 10px 20px;
+  padding: 15px 30px;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 70px;
 }
 
 .header__logo {
@@ -100,17 +102,16 @@ export default {
 .nav ul {
   list-style: none;
   display: flex;
+  gap: 2rem;
   margin: 0;
-}
-
-.nav ul li {
-  margin: 0 15px;
+  padding: 0;
 }
 
 .nav ul li a {
   color: var(--text-color);
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.3s;
 }
 
 .nav ul li a:hover {
@@ -120,10 +121,10 @@ export default {
 .theme-toggle {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .theme-label {
-  margin-left: 10px;
   color: var(--text-color);
   font-size: 0.9rem;
 }
@@ -175,6 +176,15 @@ input:checked + .slider:before {
 
 main {
   margin-top: 70px; /* Höhe des Headers */
+}
+
+.footer {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 </style>
 

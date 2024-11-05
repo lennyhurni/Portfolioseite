@@ -2,10 +2,9 @@
 
 /* Header Styles */
 .header {
-  background-image: url('../assets/Images/background.jpg');
-  background-size: cover;
-  background-position: center;
-  color: var(--white);
+  background-image: none; /* Remove or adjust background image for dark mode */
+  background-color: var(--secondary-color); /* Use secondary color */
+  color: var(--text-color);
   text-align: center;
   padding: 100px 0;
   position: relative;
@@ -57,11 +56,11 @@
 }
 
 .main-section:nth-child(even) {
-  background-color: var(--background-color);
+  background-color: var(--background-color); /* Ensure consistency */
 }
 
 .main-section:nth-child(odd) {
-  background-color: var(--white);
+  background-color: var(--secondary-color); /* Slight contrast between sections */
 }
 
 /* Cards */
@@ -98,4 +97,19 @@
 .button:hover {
   transform: scale(1.05);
   transition: transform 0.3s;
+}
+
+/* Footer Styles */
+.footer {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.9rem;
 }

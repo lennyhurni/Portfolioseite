@@ -1,3 +1,4 @@
+<!-- filepath: /c:/EWEB/portfolio_page/portfolio-vue/src/components/TestimonialsCarousel.vue -->
 <template>
   <section id="testimonials" class="main-section fade-in">
     <div class="container">
@@ -75,6 +76,7 @@ export default {
 .testimonial {
   text-align: center;
   padding: 20px;
+  background-color: var(--background-color); /* Ensure background color matches dark mode */
 }
 
 .testimonial img {

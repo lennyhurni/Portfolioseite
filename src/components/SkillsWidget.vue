@@ -1,3 +1,4 @@
+<!-- filepath: /c:/EWEB/portfolio_page/portfolio-vue/src/components/SkillsWidget.vue -->
 <template>
   <section id="skills" class="main-section fade-in">
     <div class="container">
