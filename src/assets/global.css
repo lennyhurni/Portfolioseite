@@ -98,7 +98,6 @@ button:hover {
 
 /* Header Styles */
 .header {
-  background-image: url('../assets/Images/background.jpg');
   background-size: cover;
   background-position: center;
   color: var(--white);
@@ -139,12 +138,13 @@ button:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Footer Styles */
 .footer {
-  background-color: var(--secondary-color); /* Ensure footer matches dark mode */
-  color: var(--white);
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   text-align: center;
   padding: 20px;
+  margin-top: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Main Sections */

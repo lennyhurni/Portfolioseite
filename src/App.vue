@@ -179,13 +179,14 @@ main {
 }
 
 .footer {
-  background-color: var(--secondary-color);
+  background-color: var(--background-color);
   color: var(--text-color);
   text-align: center;
   padding: 20px;
-  margin-top: 40px;
+  margin-top: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 </style>
 
 <style src="@/assets/global.css"></style>

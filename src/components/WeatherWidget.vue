@@ -1,6 +1,6 @@
 <!-- src/components/WeatherWidget.vue -->
 <template>
-  <section class="main-section">
+  <section class="main-section weather-section">
     <div class="widget weather-widget fade-in">
       <div class="weather-widget__container">
         <h3>Aktuelles Wetter in {{ city }}</h3>
@@ -81,6 +81,10 @@ export default {
 </script>
 
 <style scoped>
+
+
+
+
 .weather-widget {
   max-width: 400px;
   width: 100%;
