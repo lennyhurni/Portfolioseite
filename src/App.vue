@@ -79,6 +79,7 @@ export default {
 </script>
 
 <style scoped>
+/* Header Styles */
 .header {
   display: flex;
   justify-content: space-between;
@@ -178,16 +179,15 @@ main {
   margin-top: 70px; /* Höhe des Headers */
 }
 
+/* Footer Styles */
 .footer {
   background-color: var(--background-color);
   color: var(--text-color);
   text-align: center;
   padding: 20px;
   margin-top: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-color);
 }
-
 </style>
 
 <style src="@/assets/global.css"></style>
-<style src="@/assets/styles.css"></style>

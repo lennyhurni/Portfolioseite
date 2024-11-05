@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-/* Light Theme */
+/* Light Theme Variablen */
 :root {
   --primary-color: #4e54c8;
   --secondary-color: #f8f9fa;
@@ -18,7 +18,7 @@
   --border-color: #e1e1e1;
 }
 
-/* Dark Theme */
+/* Dark Theme Variablen */
 [data-theme="dark"] {
   --primary-color: #bb86fc;
   --secondary-color: #1a1a1a;
@@ -60,7 +60,7 @@ button {
 }
 
 button:hover {
-  background-color: #ff4c4c; /* etwas dunkleres Rot */
+  background-color: #ff4c4c; /* Etwas dunkleres Rot */
 }
 
 .container {
@@ -94,63 +94,9 @@ button:hover {
   }
 }
 
-/* styles.css */
-
-/* Header Styles */
-.header {
-  background-size: cover;
-  background-position: center;
-  color: var(--white);
-  text-align: center;
-  padding: 100px 0;
-  position: relative;
-}
-
-.header__logo {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.nav {
-  margin-top: 20px;
-}
-
-.nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.nav ul li {
-  margin: 10px 15px;
-}
-
-.nav ul li a {
-  color: var(--white);
-  font-weight: bold;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-.nav ul li a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.footer {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  text-align: center;
-  padding: 20px;
-  margin-top: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Main Sections */
+/* Hauptsektionen */
 .main-section {
   padding: 60px 0;
-  background-color: var(--background-color); /* Use variable for background */
 }
 
 .main-section:nth-child(even) {
@@ -158,12 +104,12 @@ button:hover {
 }
 
 .main-section:nth-child(odd) {
-  background-color: var(--white);
+  background-color: var(--secondary-color);
 }
 
-/* Cards */
+/* Karten */
 .card {
-  background-color: var(--secondary-color); /* Use secondary color for cards */
+  background-color: var(--white);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -172,14 +118,14 @@ button:hover {
 
 /* Widgets */
 .widget {
-  background-color: var(--secondary-color); /* Consistent with dark mode */
+  background-color: var(--secondary-color);
   color: var(--white);
   padding: 20px;
   border-radius: 10px;
   text-align: center;
 }
 
-/* Animations */
+/* Animationen */
 .fade-in {
   animation: fadeIn 1s ease-in-out forwards;
   opacity: 0;
