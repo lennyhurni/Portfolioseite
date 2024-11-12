@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Lebenslauf Lenny Hurni</title>
+    <!-- Einbindung von Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+    <!-- Einbindung von Font Awesome für Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #444;
+            background-color: #f4f6f8;
+            line-height: 1.6;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: #fff;
+            display: flex;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        /* Left Column */
+        .left-column {
+            width: 70%;
+            padding: 60px;
+        }
+        /* Right Column */
+        .right-column {
+            width: 30%;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 60px 40px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* Profile Picture */
+        .profile-picture {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 8px solid #ecf0f1;
+            object-fit: cover;
+            background-color: #ecf0f1;
+            margin-top: 20px;
+        }
+        /* Info Section */
+        .info {
+            margin-bottom: 40px;
+        }
+        .info h1 {
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .info p {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        /* Section Titles */
+        .section-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .section-title i {
+            color: #3498db;
+            margin-right: 10px;
+        }
+        .section-title::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background-color: #3498db;
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+        }
+        /* Experience & Education Items */
+        .item {
+            margin-bottom: 40px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .item img {
+            margin-right: 20px;
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .item h4 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .item .meta {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        .item p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+        }
+        /* Skills */
+        .skills-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            margin: -10px;
+        }
+        .skills-list li {
+            background-color: #ecf0f1;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 30px;
+            font-size: 16px;
+            color: #2c3e50;
+            transition: background-color 0.3s;
+        }
+        .skills-list li:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+        /* Right Column Sections */
+        .right-column .section {
+            width: 100%;
+            margin-top: 40px;
+        }
+        .right-column h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            color: #ecf0f1;
+        }
+        .right-column h3 i {
+            color: #3498db;
+            margin-right: 10px;
+        }
+        .right-column ul {
+            list-style: none;
+        }
+        .right-column ul li {
+            font-size: 16px;
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+        }
+        .right-column ul li::before {
+            content: '\25CF';
+            font-size: 16px;
+            color: #3498db;
+            position: absolute;
+            left: 0;
+        }
+        /* Contact Info */
+        .contact-info p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .contact-info a {
+            color: #ecf0f1;
+        }
+        /* About Me Section */
+        .about-me {
+            margin-bottom: 40px;
+        }
+        .about-me p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+        }
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            .left-column, .right-column {
+                width: 100%;
+                padding: 40px 30px;
+            }
+            .profile-picture {
+                margin-top: 20px;
+            }
+        }
+        @media (max-width: 576px) {
+            .info h1 {
+                font-size: 36px;
+            }
+            .section-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column -->
+        <div class="left-column">
+            <!-- Personal Info -->
+<div class="info">
+    <h1>Lenny Hurni</h1>
+</div>
+<!-- About Me -->
+            <div class="about-me">
+                <p>Ich bin ein engagierter und motivierter Fachmann mit Erfahrung in der Entwicklung innovativer KI-Lösungen, digitaler Transformation und Kundenbetreuung. Mein Ziel ist es, Unternehmen durch datengestützte Entscheidungen und optimierte Prozesse voranzubringen.</p>
+            </div>
+            <!-- Experience -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-briefcase"></i>Erfahrung</h2>
+                <!-- Experience Item 1 -->
+                <div class="item">
+                    <img src="https://media.licdn.com/dms/image/v2/D4E0BAQF4zuCbAmC82Q/company-logo_100_100/company-logo_100_100/0/1714224897361/apexaich_logo?e=1738195200&v=beta&t=JWy7GL2Cg_wm4nylUXDtnANUrp7wQ_1kYcZOadDZChE" alt="apexAI Logo" style="border-radius: 50%;">
+                    <div>
+                        <h4>Co-Founder & Geschäftsführer bei <a href="#">apexAI</a></h4>
+                        <div class="meta">05/2024 - Heute | Vollzeit | Bern</div>
+                        <p>Verantwortlich für die Leitung des Unternehmens und Entwicklung innovativer KI-Lösungen, um Unternehmen zu unterstützen, Daten in wertvolle Erkenntnisse zu verwandeln und Prozesse zu optimieren.</p>
+                    </div>
+                </div>
+                <!-- Experience Item 2 -->
+                <div class="item">
+                    <img src="https://media.licdn.com/dms/image/v2/D4E0BAQEQyUFAP-hzow/company-logo_100_100/company-logo_100_100/0/1709548798027/entlastungsdienst_schweiz_logo?e=1738195200&v=beta&t=1c_mrICb9b-DeKIWTjsG_OellDfoIlPAR1uR6lM7xbo" alt="Entlastungsdienst Logo" style="border-radius: 50%; width: 50px; height: 50px;">
+                    <div>
+                        <h4>Fachbereich Digitalisierung bei <a href="#">Entlastungsdienst Schweiz</a></h4>
+                        <div class="meta">10/2024 - Heute | Teilzeit | Bern</div>
+                        <p>Unterstützung bei der digitalen Transformation des Unternehmens, Entwicklung digitaler Strategien und Optimierung der internen Prozesse.</p>
+                    </div>
+                </div>
+                <!-- Experience Item 3 -->
+                <div class="item">
+                    <img src="https://media.licdn.com/dms/image/v2/C4E0BAQETKh15TESnug/company-logo_100_100/company-logo_100_100/0/1631519610485/swissquote_logo?e=1738195200&v=beta&t=En9AAKzOMFx0qemvHiJWQv8ZKjvpk11XzoURvpGSMpo" alt="Swissquote Logo" style="border-radius: 50%;">
+                    <div>
+                        <h4>Kundendienstmitarbeiter bei <a href="#">Swissquote</a></h4>
+                        <div class="meta">10/2022 - 10/2024 | Teilzeit | Zürich</div>
+                        <p>Kundenbetreuung und Bearbeitung von Anfragen im Bereich Online-Banking, Unterstützung der Kunden in finanziellen Fragen.</p>
+                    </div>
+                </div>
+                <!-- Experience Item 4 -->
+                <div class="item">
+                    <img src="https://media.licdn.com/dms/image/v2/C4E0BAQETKh15TESnug/company-logo_100_100/company-logo_100_100/0/1631519610485/swissquote_logo?e=1738195200&v=beta&t=En9AAKzOMFx0qemvHiJWQv8ZKjvpk11XzoURvpGSMpo" alt="Swissquote Logo" style="border-radius: 50%;">
+                    <div>
+                        <h4>Kundendienstmitarbeiter bei <a href="#">Swissquote</a></h4>
+                        <div class="meta">07/2021 - 06/2022 | Vollzeit | Bern</div>
+                        <p>Kundenberatung im Bereich Finanzprodukte und technische Unterstützung bei der Nutzung der Online-Plattform.</p>
+                    </div>
+                </div>
+                <!-- Experience Item 5 -->
+                <div class="item">
+                    <img src="https://media.licdn.com/dms/image/v2/D4E0BAQGqBe4QkxdBWA/company-logo_100_100/company-logo_100_100/0/1697544888604/swiss_armed_forces_logo?e=1738195200&v=beta&t=eGzkEBz_xn6LbUiAvsDdDQQEjcJ-wIE-L9szN49CDtk" alt="Schweizer Armee Logo" style="border-radius: 50%;">
+                    <div>
+                        <h4>Soldat bei <a href="#">Schweizer Armee</a></h4>
+                        <div class="meta">01/2022 - 05/2022 | Vollzeit | St. Gallen</div>
+                        <p>Absolvierung der Grundausbildung und Erlernen militärischer Fähigkeiten.</p>
+                    </div>
+                </div>
+                <!-- Experience Item 6 -->
+                <div class="item">
+                    <img src="https://media.licdn.com/dms/image/v2/D4E0BAQEIyAnWEgWQ9w/company-logo_100_100/company-logo_100_100/0/1681977263969/swiss_post_logo?e=1738195200&v=beta&t=rzxlrcuXgBhIVtZG47SPujrZ9VrtfvAnHjyIhhFnQoA" alt="Post Logo" style="border-radius: 50%;">
+                    <div>
+                        <h4>Lernender Kaufmann EFZ bei <a href="#">Die Schweizerische Post</a></h4>
+                        <div class="meta">08/2017 - 07/2020 | Vollzeit | Bern</div>
+                        <p>Ausbildung im kaufmännischen Bereich mit Fokus auf Banking.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Education -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-graduation-cap"></i>Ausbildungen</h2>
+                <!-- Education Item 1 -->
+                <div class="item">
+                    
+                    <div>
+                        <h4>Bachelor of Science - Digital Business & AI</h4>
+                        <div class="meta">Berner Fachhochschule BFH | 08/2022 - 08/2025</div>
+                        <p>Studium mit Fokus auf digitale Geschäftsmodelle und künstliche Intelligenz.</p>
+                    </div>
+                </div>
+                <!-- Education Item 2 -->
+                <div class="item">
+                    
+                    <div>
+                        <h4>Berufsmaturität Typ Wirtschaft</h4>
+                        <div class="meta">WKS KV Bildung | 01/2020 - 12/2021</div>
+                        <p>Erweiterte Allgemeinbildung mit Schwerpunkt Wirtschaft zur Vorbereitung auf ein Hochschulstudium.</p>
+                    </div>
+                </div>
+                <!-- Education Item 3 -->
+                <div class="item">
+                    <div>
+                        <h4>Kaufmann EFZ</h4>
+                        <div class="meta">WKS KV Bildung | 08/2017 - 07/2020</div>
+                        <p>Ausbildung zum Kaufmann mit eidgenössischem Fähigkeitszeugnis (EFZ).</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Skills -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-tools"></i>Skills</h2>
+                <ul class="skills-list">
+                    <li>Datenanalyse</li>
+                    <li>Künstliche Intelligenz</li>
+                    <li>Maschinelles Lernen</li>
+                    <li>Programmierung</li>
+                    <li>Digitale Transformation</li>
+                    <li>ERP-Systeme</li>
+                    <li>Projektmanagement</li>
+                    <li>Datenbanken & SQL</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Right Column -->
+        <div class="right-column">
+            <!-- Profile Picture -->
+            <img class="profile-picture" src="https://media.licdn.com/dms/image/v2/D4E03AQFQZtzmJhKgTA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1713627158086?e=1735776000&v=beta&t=U0F9h0wEBJGAe1xczb4nvN9ERXPgfnkq-iRwaRki-cA" alt="Profilbild">
+            <!-- Contact Info -->
+            <div class="section contact-info">
+                <h3><i class="fas fa-user"></i>Kontakt</h3>
+                <p>Bern, Schweiz</p>
+                <p><a href="mailto:lennyhurni1@gmail.com">lennyhurni1@gmail.com</a></p>
+                <p><a href="tel:+41792430371">+41 79 243 03 71</a></p>
+                <p><a href="https://linkedin.com/in/lenny-hurni">linkedin.com/in/lenny-hurni</a></p>
+            </div>
+            <!-- Languages -->
+            <div class="section">
+                <h3><i class="fas fa-language"></i>Sprachen</h3>
+                <ul>
+                    <li>Deutsch (Muttersprache)
+                        <div style="background: #ecf0f1; height: 10px; width: 100%; border-radius: 5px; margin-top: 5px;">
+                            <div style="background: #3498db; height: 100%; width: 100%; border-radius: 5px;"></div>
+                        </div>
+                    </li>
+                    <li>Englisch (Fliessend)
+                        <div style="background: #ecf0f1; height: 10px; width: 100%; border-radius: 5px; margin-top: 5px;">
+                            <div style="background: #3498db; height: 100%; width: 80%; border-radius: 5px;"></div>
+                        </div>
+                    </li>
+                    <li>Französisch (Mittelstufe)
+                        <div style="background: #ecf0f1; height: 10px; width: 100%; border-radius: 5px; margin-top: 5px;">
+                            <div style="background: #3498db; height: 100%; width: 60%; border-radius: 5px;"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- Certificates -->
+            <div class="section">
+                <h3><i class="fas fa-certificate"></i>Zertifikate</h3>
+                <ul>
+                    <li>Cambridge B2 First (FCE)</li>
+                    <li>Business Preliminary (BEC P)</li>
+                    <li>DELF B2</li>
+                </ul>
+            </div>
+            <!-- Interests -->
+            <div class="section">
+                <h3><i class="fas fa-heart"></i>Interessen</h3>
+                <ul>
+                    <li>Skifahren</li>
+                    <li>Kraftsport</li>
+                    <li>Fussball</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

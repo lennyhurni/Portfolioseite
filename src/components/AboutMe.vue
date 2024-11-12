@@ -1,20 +1,56 @@
 <template>
   <section id="about" class="main-section fade-in">
-    <div class="container flex align-center">
-      <div class="about__image">
-        <img :src="avatarImage" alt="Mein Foto" />
+    <div class="container">
+      <div class="about__header flex align-center">
+        <div class="about__image">
+          <img :src="profileImage" alt="Mein Foto" />
+        </div>
+        <div class="about__intro">
+          <h2>Über mich</h2>
+          <p class="about__description">{{ intro }}</p>
+          <button class="download-cv" @click="downloadCV">
+            <i class="fas fa-download"></i> Lebenslauf herunterladen
+          </button>
+        </div>
       </div>
+
       <div class="about__content">
-        <h2>Über mich</h2>
-        <p>Ich bin Lenny, ein erfahrener Webentwickler aus Bern.</p>
-        <!-- Dynamische Zeitleiste -->
-        <div class="timeline">
-          <div v-for="(event, index) in timeline" :key="index" class="timeline-event">
-            <h3>{{ event.year }}</h3>
-            <p>{{ event.description }}</p>
+        <div class="experience-section">
+          <h3><i class="fas fa-briefcase"></i> Aktuelle Positionen</h3>
+          <div class="current-positions">
+            <div v-for="(position, index) in currentPositions" :key="index" class="position-card">
+              <img :src="position.logo" :alt="position.company" />
+              <div class="position-info">
+                <h4>{{ position.title }}</h4>
+                <p class="company">{{ position.company }}</p>
+                <p class="period">{{ position.period }}</p>
+              </div>
+            </div>
           </div>
         </div>
-        <button @click="downloadCV">Lebenslauf herunterladen</button>
+
+        <div class="education-section">
+          <h3><i class="fas fa-graduation-cap"></i> Ausbildung</h3>
+          <div class="education-timeline">
+            <div v-for="(edu, index) in education" :key="index" class="timeline-item">
+              <div class="timeline-content">
+                <h4>{{ edu.title }}</h4>
+                <p class="institution">{{ edu.institution }}</p>
+                <p class="period">{{ edu.period }}</p>
+                <p class="description">{{ edu.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-section">
+          <h3><i class="fas fa-tools"></i> Kernkompetenzen</h3>
+          <div class="skills-grid">
+            <div v-for="(skill, index) in skills" :key="index" class="skill-item">
+              <span class="skill-name">{{ skill }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -24,71 +60,204 @@
 export default {
   data() {
     return {
-      avatarImage: require('@/assets/Images/avatar.png'),
-      timeline: [
-        { year: '2022', description: 'Senior Developer bei XYZ' },
-        { year: '2020', description: 'Webentwickler bei ABC' },
-        { year: '2018', description: 'Abschluss an der Universität' },
-        // Weitere Ereignisse...
+      profileImage: require('@/assets/Images/avatar.png'),
+      intro: 'Ich bin ein engagierter und motivierter Fachmann mit Erfahrung in der Entwicklung innovativer KI-Lösungen, digitaler Transformation und Kundenbetreuung. Mein Ziel ist es, Unternehmen durch datengestützte Entscheidungen und optimierte Prozesse voranzubringen.',
+      currentPositions: [
+        {
+          title: 'Co-Founder & Geschäftsführer',
+          company: 'apexAI',
+          period: '05/2024 - Heute',
+          logo: 'https://media.licdn.com/dms/image/v2/D4E0BAQF4zuCbAmC82Q/company-logo_100_100/company-logo_100_100/0/1714224897361/apexaich_logo?e=1738195200&v=beta&t=JWy7GL2Cg_wm4nylUXDtnANUrp7wQ_1kYcZOadDZChE'
+        },
+        {
+          title: 'Fachbereich Digitalisierung',
+          company: 'Entlastungsdienst Schweiz',
+          period: '10/2024 - Heute',
+          logo: 'https://media.licdn.com/dms/image/v2/D4E0BAQEQyUFAP-hzow/company-logo_100_100/company-logo_100_100/0/1709548798027/entlastungsdienst_schweiz_logo?e=1738195200&v=beta&t=1c_mrICb9b-DeKIWTjsG_OellDfoIlPAR1uR6lM7xbo'
+        }
       ],
-    };
+      education: [
+        {
+          title: 'Bachelor of Science - Digital Business & AI',
+          institution: 'Berner Fachhochschule BFH',
+          period: '08/2022 - 08/2025',
+          description: 'Studium mit Fokus auf digitale Geschäftsmodelle und künstliche Intelligenz.'
+        },
+        {
+          title: 'Berufsmaturität Typ Wirtschaft',
+          institution: 'WKS KV Bildung',
+          period: '01/2020 - 12/2021',
+          description: 'Erweiterte Allgemeinbildung mit Schwerpunkt Wirtschaft.'
+        }
+      ],
+      skills: [
+        'Datenanalyse',
+        'Künstliche Intelligenz',
+        'Maschinelles Lernen',
+        'Programmierung',
+        'Digitale Transformation',
+        'ERP-Systeme',
+        'Projektmanagement',
+        'Datenbanken & SQL'
+      ]
+    }
   },
   methods: {
-    downloadCV() {
-      window.open('path/to/your/cv.pdf', '_blank');
-    },
-  },
-};
+  downloadCV() {
+    const cvPath = '/lebenslauf.html'
+    window.open(cvPath, '_blank', 'noopener,noreferrer')
+  }
+}
+}
 </script>
 
 <style scoped>
+.about__header {
+  margin-bottom: 4rem;
+}
+
 .about__image img {
   width: 200px;
+  height: 200px;
   border-radius: 50%;
-  margin-right: 40px;
+  object-fit: cover;
+  border: 4px solid var(--primary-color);
 }
 
-.about__content {
-  max-width: 600px;
+.about__intro {
+  flex: 1;
+  margin-left: 2rem;
 }
 
-.about__content h2 {
-  margin-bottom: 20px;
-}
-
-.about__content p {
-  margin-bottom: 20px;
+.about__description {
   font-size: 1.1rem;
   line-height: 1.8;
+  margin: 1.5rem 0;
+  color: var(--text-color);
 }
 
-.timeline {
-  margin-bottom: 20px;
+.download-cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  transition: transform 0.3s ease;
 }
 
-.timeline-event {
+.download-cv:hover {
+  transform: translateY(-2px);
+}
+
+.experience-section,
+.education-section,
+.skills-section {
+  margin-bottom: 3rem;
+}
+
+h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.current-positions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.position-card {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.position-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  margin-right: 1rem;
+}
+
+.position-info h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.education-timeline {
   position: relative;
-  padding-left: 30px;
-  margin-bottom: 20px;
+  padding-left: 2rem;
 }
 
-.timeline-event::before {
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+
+.timeline-item::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 5px;
-  width: 15px;
-  height: 15px;
-  background-color: var(--primary-color);
+  left: -2px;
+  top: 0;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
+  background-color: var(--primary-color);
 }
 
-.timeline-event h3 {
-  margin-bottom: 5px;
-  color: var(--primary-color);
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 16px;
+  bottom: -2rem;
+  width: 2px;
+  background-color: var(--border-color);
 }
 
-.timeline-event p {
-  margin: 0;
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.skill-item {
+  padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .about__header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about__image {
+    margin-bottom: 2rem;
+  }
+
+  .about__intro {
+    margin-left: 0;
+  }
+
+  .current-positions {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
