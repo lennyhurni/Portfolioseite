@@ -3,11 +3,14 @@
     <div class="container">
       <h2>Blog</h2>
       <div class="blog-posts__grid">
-        <div class="card blog-post" v-for="(post, index) in blogPosts" :key="index">
-          <img :src="post.image" alt="Bild zu {{ post.title }}" />
-          <h3>{{ post.title }}</h3>
-          <p>{{ post.excerpt }}</p>
-          <button @click="openModal(post)">Weiterlesen</button>
+        <div class="blog-post" v-for="post in posts" :key="post.title" @click="openModal(post)">
+          <div class="blog-post__image">
+            <img :src="post.image" :alt="post.title" />
+          </div>
+          <div class="blog-post__content">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.excerpt }}</p>
+          </div>
         </div>
       </div>
       <BlogPostModal :post="selectedPost" :isVisible="isModalVisible" @close="closeModal" />
@@ -19,14 +22,16 @@
 import BlogPostModal from './BlogPostModal.vue';
 
 export default {
-  components: { BlogPostModal },
+  components: {
+    BlogPostModal,
+  },
   data() {
     return {
-      blogPosts: [
+      posts: [
         {
-          title: 'Die neuesten Trends in der Webentwicklung',
-          excerpt: 'Erfahre mehr über die aktuellen Trends und Technologien in der Webentwicklung...',
-          content: 'Hier ist der vollständige Inhalt des Blog-Beitrags...',
+          title: 'Neueste Trends in der Webentwicklung',
+          excerpt: 'Erfahre mehr über aktuelle Technologien und Frameworks...',
+          content: 'Hier steht der vollständige Inhalt des Blog-Beitrags...',
           image: require('@/assets/Images/blog1.jpg'),
         },
         {
@@ -35,12 +40,7 @@ export default {
           content: 'Hier ist der vollständige Inhalt des Blog-Beitrags...',
           image: require('@/assets/Images/blog2.jpg'),
         },
-        {
-          title: 'Wie du deine Programmierfähigkeiten verbesserst',
-          excerpt: 'Lerne Strategien kennen, um ein besserer Entwickler zu werden...',
-          content: 'Hier ist der vollständige Inhalt des Blog-Beitrags...',
-          image: require('@/assets/Images/blog3.jpg'),
-        },
+        // Weitere Beiträge...
       ],
       selectedPost: null,
       isModalVisible: false,
@@ -50,11 +50,11 @@ export default {
     openModal(post) {
       this.selectedPost = post;
       this.isModalVisible = true;
-      document.body.style.overflow = 'hidden'; // Scrollen verhindern
+      document.body.style.overflow = 'hidden';
     },
     closeModal() {
       this.isModalVisible = false;
-      document.body.style.overflow = 'auto'; // Scrollen wieder erlauben
+      document.body.style.overflow = 'auto';
     },
   },
 };
@@ -64,56 +64,55 @@ export default {
 .blog-posts__grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: 20px;
 }
 
 .blog-post {
-  width: 100%;
-  margin-bottom: 20px;
+  flex: 1 1 calc(33.333% - 20px);
+  background-color: var(--secondary-color);
+  border-radius: 10px;
   overflow: hidden;
-  padding: 0;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition);
 }
 
-.blog-post img {
+.blog-post:hover {
+  transform: translateY(-5px);
+}
+
+.blog-post__image img {
   width: 100%;
   height: 200px;
   object-fit: cover;
 }
 
-.blog-post h3 {
+.blog-post__content {
   padding: 15px;
-  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.blog-post__content h3 {
   color: var(--primary-color);
+  margin-bottom: 10px;
 }
 
-.blog-post p {
-  padding: 0 15px;
+.blog-post__content p {
   color: var(--text-color);
+  flex: 1;
 }
 
-.blog-post button {
-  margin: 15px;
-  background-color: var(--accent-color);
-  color: var(--white);
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.blog-post button:hover {
-  background-color: #e55d5d;
-}
-
-@media (min-width: 768px) {
+@media (max-width: 1024px) {
   .blog-post {
-    width: 48%;
+    flex: 1 1 calc(50% - 20px);
   }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 768px) {
   .blog-post {
-    width: 30%;
+    flex: 1 1 calc(100% - 20px);
   }
 }
 </style>

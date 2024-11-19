@@ -33,7 +33,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Erhöhen Sie den z-index, falls nötig */
+  z-index: 9999;
 }
 
 .modal-content {

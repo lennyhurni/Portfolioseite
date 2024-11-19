@@ -1,13 +1,13 @@
 /* global.css */
 
-/* Reset und allgemeine Styles */
+/* Reset and General Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Light Theme Variablen */
+/* Light Theme Variables */
 :root {
   --primary-color: #4e54c8;
   --secondary-color: #f8f9fa;
@@ -16,9 +16,11 @@
   --text-color: #2f3640;
   --white: #ffffff;
   --border-color: #e1e1e1;
+  --transition: 0.3s ease;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Dark Theme Variablen */
+/* Dark Theme Variables */
 [data-theme="dark"] {
   --primary-color: #bb86fc;
   --secondary-color: #1a1a1a;
@@ -27,6 +29,7 @@
   --text-color: #e5e5e7;
   --white: #ffffff;
   --border-color: #2c2c2e;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -34,6 +37,7 @@ body {
   line-height: 1.6;
   background-color: var(--background-color);
   color: var(--text-color);
+  transition: background-color var(--transition), color var(--transition);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -43,6 +47,7 @@ h1, h2, h3, h4, h5, h6 {
 a {
   color: var(--primary-color);
   text-decoration: none;
+  transition: color var(--transition);
 }
 
 a:hover {
@@ -55,16 +60,18 @@ button {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background var(--transition), transform var(--transition);
   border-radius: 5px;
 }
 
 button:hover {
-  background-color: #ff4c4c; /* Etwas dunkleres Rot */
+  background-color: #ff4c4c;
+  transform: translateY(-3px);
 }
 
 .container {
   width: 90%;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -94,7 +101,7 @@ button:hover {
   }
 }
 
-/* Hauptsektionen */
+/* Main Sections */
 .main-section {
   padding: 60px 0;
 }
@@ -107,25 +114,31 @@ button:hover {
   background-color: var(--secondary-color);
 }
 
-/* Karten */
+/* Cards */
 .card {
   background-color: var(--white);
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   padding: 20px;
   margin: 20px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Widgets */
 .widget {
   background-color: var(--secondary-color);
-  color: var(--white);
+  color: var(--text-color);
   padding: 20px;
   border-radius: 10px;
   text-align: center;
 }
 
-/* Animationen */
+/* Animations */
 .fade-in {
   animation: fadeIn 1s ease-in-out forwards;
   opacity: 0;
@@ -137,8 +150,45 @@ button:hover {
   }
 }
 
-/* Hover-Effekte */
-.button:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s;
+/* Buttons */
+button, .button {
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+button:hover, .button:hover {
+  transform: translateY(-3px);
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+/* Responsive Grids */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -10px;
+}
+
+.col {
+  flex: 1 1 100%;
+  padding: 10px;
+}
+
+@media (min-width: 768px) {
+  .col {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .col {
+    flex: 1 1 calc(33.333% - 20px);
+  }
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
 }

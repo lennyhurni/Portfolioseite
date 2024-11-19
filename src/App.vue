@@ -3,16 +3,21 @@
   <div id="app" :data-theme="currentTheme">
     <header class="header">
       <div class="header__logo">Lenny Hurni</div>
-      <nav class="nav">
+      <nav class="nav" :class="{ 'nav--open': isMenuOpen }">
         <ul>
-          <li><a href="#about" @click.prevent="scrollTo('#about')">Über mich</a></li>
-          <li><a href="#skills" @click.prevent="scrollTo('#skills')">Fähigkeiten</a></li>
-          <li><a href="#portfolio" @click.prevent="scrollTo('#portfolio')">Portfolio</a></li>
-          <li><a href="#testimonials" @click.prevent="scrollTo('#testimonials')">Testimonials</a></li>
-          <li><a href="#blog" @click.prevent="scrollTo('#blog')">Blog</a></li>
-          <li><a href="#contact" @click.prevent="scrollTo('#contact')">Kontakt</a></li>
+          <li><a href="#about" @click.prevent="navigateTo('#about')">Über mich</a></li>
+          <li><a href="#skills" @click.prevent="navigateTo('#skills')">Fähigkeiten</a></li>
+          <li><a href="#portfolio" @click.prevent="navigateTo('#portfolio')">Portfolio</a></li>
+          <li><a href="#testimonials" @click.prevent="navigateTo('#testimonials')">Testimonials</a></li>
+          <li><a href="#blog" @click.prevent="navigateTo('#blog')">Blog</a></li>
+          <li><a href="#contact" @click.prevent="navigateTo('#contact')">Kontakt</a></li>
         </ul>
       </nav>
+      <div class="menu-toggle" :class="{ 'is-active': isMenuOpen }" @click="toggleMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <div class="theme-toggle">
         <label class="switch">
           <input type="checkbox" v-model="isDarkMode" @change="toggleTheme" />
@@ -53,27 +58,35 @@ export default {
     TestimonialsCarousel,
     BlogPosts,
     ContactForm,
-    WeatherWidget
+    WeatherWidget,
   },
   data() {
     return {
+      isMenuOpen: false,
       isDarkMode: false,
       currentTheme: 'light',
     };
   },
   methods: {
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
     toggleTheme() {
       this.currentTheme = this.isDarkMode ? 'dark' : 'light';
+    },
+    navigateTo(section) {
+      this.isMenuOpen = false;
+      this.scrollTo(section);
     },
     scrollTo(section) {
       const target = document.querySelector(section);
       if (target) {
         window.scrollTo({
-          top: target.offsetTop - 70, // 70px für die Header-Höhe
-          behavior: 'smooth'
+          top: target.offsetTop - 70,
+          behavior: 'smooth',
         });
       }
-    }
+    },
   },
 };
 </script>
@@ -90,14 +103,20 @@ export default {
   width: 100%;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  height: 70px;
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition);
 }
 
 .header__logo {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary-color);
+  transition: color var(--transition);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
 }
 
 .nav ul {
@@ -112,11 +131,93 @@ export default {
   color: var(--text-color);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
+  position: relative;
+  transition: color var(--transition);
 }
 
-.nav ul li a:hover {
-  color: var(--primary-color);
+.nav ul li a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: var(--primary-color);
+  left: 0;
+  bottom: -5px;
+  transition: width 0.3s;
+}
+
+.nav ul li a:hover::after {
+  width: 100%;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px;
+  background-color: var(--text-color);
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.menu-toggle.is-active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle.is-active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.is-active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+  .nav {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background-color: var(--background-color);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .nav.nav--open {
+    transform: translateX(0);
+  }
+
+  .nav ul {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .menu-toggle {
+    display: block;
+    cursor: pointer;
+  }
+
+  .theme-toggle {
+    display: none;
+  }
+}
+
+/* Theme Toggle Adjustments for Mobile */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px;
+  }
+
+  .header__logo {
+    font-size: 1.2rem;
+  }
 }
 
 .theme-toggle {
@@ -130,6 +231,7 @@ export default {
   font-size: 0.9rem;
 }
 
+/* Switch Styles */
 .switch {
   position: relative;
   display: inline-block;
@@ -137,7 +239,7 @@ export default {
   height: 20px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -148,7 +250,7 @@ export default {
   cursor: pointer;
   background-color: #ccc;
   border-radius: 34px;
-  transition: .4s;
+  transition: var(--transition);
   top: 0;
   left: 0;
   right: 0;
@@ -162,7 +264,7 @@ export default {
   width: 16px;
   background-color: white;
   border-radius: 50%;
-  transition: .4s;
+  transition: var(--transition);
   left: 2px;
   bottom: 2px;
 }
@@ -175,8 +277,9 @@ input:checked + .slider:before {
   transform: translateX(20px);
 }
 
+/* Main Content */
 main {
-  margin-top: 70px; /* Höhe des Headers */
+  margin-top: 70px;
 }
 
 /* Footer Styles */

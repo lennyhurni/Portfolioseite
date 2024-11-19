@@ -259,5 +259,6 @@ h3 {
   .current-positions {
     grid-template-columns: 1fr;
   }
+
 }
 </style>
