@@ -73,8 +73,6 @@ export default {
       this.isMenuOpen = !this.isMenuOpen;
     },
     toggleTheme() {
-      // Entferne das manuelle Umschalten von isDarkMode
-      // Verwende stattdessen den aktuellen Wert von isDarkMode
       this.currentTheme = this.isDarkMode ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', this.currentTheme);
       console.log(`Theme toggled to: ${this.currentTheme}`);
@@ -94,7 +92,6 @@ export default {
     },
   },
   mounted() {
-    // Setze das initiale Theme basierend auf den Benutzereinstellungen oder auf den Standardwert
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     this.isDarkMode = prefersDark;
     this.currentTheme = this.isDarkMode ? 'dark' : 'light';
@@ -277,9 +274,6 @@ input:checked + .slider:before {
     display: block;
   }
 
-  .theme-toggle {
-    display: none;
-  }
 
   .header {
     padding: 15px;

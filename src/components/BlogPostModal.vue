@@ -1,3 +1,4 @@
+<!-- src/components/BlogPostModal.vue -->
 <template>
   <teleport to="body">
     <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
@@ -38,7 +39,8 @@ export default {
 }
 
 .modal-content {
-  background-color: var(--white);
+  background-color: var(--background-color);
+  color: var(--text-color); 
   padding: 20px;
   border-radius: 10px;
   width: 90%;
@@ -46,6 +48,8 @@ export default {
   position: relative;
   max-height: 90%;
   overflow-y: auto;
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition), color var(--transition);
 }
 
 .close-button {
