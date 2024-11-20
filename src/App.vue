@@ -1,4 +1,4 @@
-<!-- filepath: /c:/EWEB/portfolio_page/portfolio-vue/src/App.vue -->
+<!-- src/App.vue -->
 <template>
   <div id="app" :data-theme="currentTheme">
     <header class="header">
@@ -27,7 +27,7 @@
       </div>
     </header>
     <main>
-      <AboutMe />
+      <AboutMe :currentTheme="currentTheme" />
       <SkillsWidget />
       <ProjectList />
       <TestimonialsCarousel />
@@ -51,6 +51,7 @@ import ContactForm from '@/components/ContactForm.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 
 export default {
+  name: 'App',
   components: {
     AboutMe,
     SkillsWidget,
@@ -72,7 +73,11 @@ export default {
       this.isMenuOpen = !this.isMenuOpen;
     },
     toggleTheme() {
+      // Entferne das manuelle Umschalten von isDarkMode
+      // Verwende stattdessen den aktuellen Wert von isDarkMode
       this.currentTheme = this.isDarkMode ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', this.currentTheme);
+      console.log(`Theme toggled to: ${this.currentTheme}`);
     },
     navigateTo(section) {
       this.isMenuOpen = false;
@@ -87,6 +92,14 @@ export default {
         });
       }
     },
+  },
+  mounted() {
+    // Setze das initiale Theme basierend auf den Benutzereinstellungen oder auf den Standardwert
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.isDarkMode = prefersDark;
+    this.currentTheme = this.isDarkMode ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', this.currentTheme);
+    console.log(`Initial theme set to: ${this.currentTheme}`);
   },
 };
 </script>
@@ -150,8 +163,10 @@ export default {
   width: 100%;
 }
 
+/* Menu Toggle Styles */
 .menu-toggle {
   display: none;
+  cursor: pointer;
 }
 
 .menu-toggle span {
@@ -175,51 +190,7 @@ export default {
   transform: translateY(-8px) rotate(-45deg);
 }
 
-@media (max-width: 768px) {
-  .nav {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 70px);
-    background-color: var(--background-color);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .nav.nav--open {
-    transform: translateX(0);
-  }
-
-  .nav ul {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .menu-toggle {
-    display: block;
-    cursor: pointer;
-  }
-
-  .theme-toggle {
-    display: none;
-  }
-}
-
-/* Theme Toggle Adjustments for Mobile */
-@media (max-width: 768px) {
-  .header {
-    padding: 15px;
-  }
-
-  .header__logo {
-    font-size: 1.2rem;
-  }
-}
-
+/* Theme Toggle Styles */
 .theme-toggle {
   display: flex;
   align-items: center;
@@ -277,9 +248,53 @@ input:checked + .slider:before {
   transform: translateX(20px);
 }
 
-/* Main Content */
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background-color: var(--background-color);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .nav.nav--open {
+    transform: translateX(0);
+  }
+
+  .nav ul {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .theme-toggle {
+    display: none;
+  }
+
+  .header {
+    padding: 15px;
+  }
+
+  .header__logo {
+    font-size: 1.2rem;
+  }
+}
+
+/* Main Content Styles */
 main {
   margin-top: 70px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Footer Styles */
@@ -290,6 +305,8 @@ main {
   padding: 20px;
   margin-top: 0;
   border-top: 1px solid var(--border-color);
+  position: relative;
+  z-index: 1;
 }
 </style>
 

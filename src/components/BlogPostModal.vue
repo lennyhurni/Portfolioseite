@@ -14,6 +14,7 @@
 <script>
 export default {
   props: ['post', 'isVisible'],
+  emits: ['close'],
   methods: {
     closeModal() {
       this.$emit('close');

@@ -13,7 +13,12 @@
           </div>
         </div>
       </div>
-      <BlogPostModal :post="selectedPost" :isVisible="isModalVisible" @close="closeModal" />
+      <!-- Ensure emits are correctly handled -->
+      <BlogPostModal 
+        :post="selectedPost" 
+        :isVisible="isModalVisible" 
+        @close="closeModal" 
+      />
     </div>
   </section>
 </template>
@@ -54,6 +59,7 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+      this.selectedPost = null;
       document.body.style.overflow = 'auto';
     },
   },

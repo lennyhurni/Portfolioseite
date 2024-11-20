@@ -3,6 +3,7 @@
     <div class="container">
       <div class="about__header flex align-center">
         <div class="about__image">
+          <ThreeDBackground :currentTheme="currentTheme"/>
           <img :src="profileImage" alt="Mein Foto" />
         </div>
         <div class="about__intro">
@@ -57,7 +58,18 @@
 </template>
 
 <script>
+import ThreeDBackground from '@/components/ThreeDBackground.vue';
+
 export default {
+  props: {
+    currentTheme: {
+      type: String,
+      default: 'light',
+    },
+  },
+  components: {
+    ThreeDBackground,
+  },
   data() {
     return {
       profileImage: require('@/assets/Images/avatar.png'),
@@ -100,15 +112,15 @@ export default {
         'Projektmanagement',
         'Datenbanken & SQL'
       ]
-    }
+    };
   },
   methods: {
-  downloadCV() {
-    const cvPath = '/lebenslauf.html'
-    window.open(cvPath, '_blank', 'noopener,noreferrer')
+    downloadCV() {
+      const cvPath = '/lebenslauf.html';
+      window.open(cvPath, '_blank', 'noopener,noreferrer');
+    }
   }
-}
-}
+};
 </script>
 
 <style scoped>
@@ -116,12 +128,21 @@ export default {
   margin-bottom: 4rem;
 }
 
-.about__image img {
+.about__image {
+  position: relative;
   width: 200px;
   height: 200px;
+  margin: 0 auto;
+}
+
+.about__image img {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid var(--primary-color);
+  position: relative;
+  z-index: 1;
 }
 
 .about__intro {
