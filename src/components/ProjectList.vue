@@ -3,7 +3,12 @@
     <div class="container">
       <h2>Portfolio</h2>
       <div class="project-list__search">
-        <input type="text" placeholder="Projekte suchen..." v-model="searchQuery" @input="filterRepos" />
+        <input
+          type="text"
+          placeholder="Projekte suchen..."
+          v-model="searchQuery"
+          @input="filterRepos"
+        />
       </div>
       <div class="project-list__grid">
         <div class="project-card" v-for="project in filteredProjects" :key="project.id">
@@ -11,7 +16,7 @@
             <h3>{{ project.name }}</h3>
           </div>
           <div class="project-card__body">
-            <p>{{ project.description }}</p>
+            <p>{{ project.description || 'Keine Beschreibung verfügbar.' }}</p>
           </div>
           <div class="project-card__footer">
             <a :href="project.html_url" target="_blank" class="button">Zum Repository</a>
@@ -34,19 +39,21 @@ export default {
     };
   },
   mounted() {
-    githubService.getUserRepos('deinbenutzername')
-      .then(response => {
+    githubService
+      .getUserRepos()
+      .then((response) => {
         this.projects = response.data;
         this.filteredProjects = this.projects;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Fehler beim Abrufen der GitHub Projekte:', error);
       });
   },
   methods: {
     filterRepos() {
-      this.filteredProjects = this.projects.filter(project =>
-        project.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      const query = this.searchQuery.toLowerCase();
+      this.filteredProjects = this.projects.filter((project) =>
+        project.name.toLowerCase().includes(query)
       );
     },
   },
@@ -55,38 +62,52 @@ export default {
 
 <style scoped>
 .project-list__search {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .project-list__search input {
   width: 100%;
-  padding: 10px;
-  border: 2px solid var(--primary-color);
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
-  box-shadow: var(--shadow);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  background-color: var(--card-background);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
 .project-list__search input:focus {
-  border-color: var(--accent-color);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color);
+  outline: none;
 }
 
 .project-list__grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  animation: fadeInGrid 1s ease-in-out;
+}
+
+@keyframes fadeInGrid {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .project-card {
-  flex: 1 1 calc(33.333% - 20px);
-  background-color: var(--secondary-color);
-  border-radius: 10px;
-  overflow: hidden;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow);
-  transition: transform var(--transition), box-shadow var(--transition);
+  padding: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-card:hover {
@@ -94,53 +115,63 @@ export default {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-.project-card__header {
-  background-color: var(--primary-color);
-  padding: 15px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+.project-card__header h3 {
+  margin: 0.5rem 0;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.project-card__header h3 {
-  color: var(--white);
-  margin: 0;
+.project-card__header h3:hover {
+  color: var(--primary-color);
 }
 
 .project-card__body {
   flex: 1;
-  padding: 15px;
+  margin-bottom: 0.75rem;
   color: var(--text-color);
+  font-size: 0.9rem;
 }
 
 .project-card__footer {
-  padding: 15px;
-  border-top: 1px solid var(--border-color);
-  text-align: right;
+  text-align: center;
 }
 
-.project-card__footer .button {
-  background-color: var(--primary-color);
-  color: var(--white);
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background-color var(--transition), transform var(--transition);
-}
 
-.project-card__footer .button:hover {
-  background-color: var(--accent-color);
-  transform: translateY(-3px);
-}
-
-@media (max-width: 1024px) {
-  .project-card {
-    flex: 1 1 calc(50% - 20px);
-  }
-}
 
 @media (max-width: 768px) {
-  .project-card {
-    flex: 1 1 calc(100% - 20px);
+  .project-list__grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .project-card__body {
+    font-size: 0.85rem;
+  }
+
+  .project-card__footer .button {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
   }
 }
+
+@media (max-width: 480px) {
+  .project-list__grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .project-card {
+    padding: 0.75rem;
+  }
+
+  .project-card__footer .button {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+  }
+}
+
 </style>
