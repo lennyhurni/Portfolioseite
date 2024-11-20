@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     downloadCV() {
-      const cvPath = '/lebenslauf.html';
+      const cvPath = '/Lebenslauf_Lenny.html'; // Korrigierter Pfad zum Lebenslauf
       window.open(cvPath, '_blank', 'noopener,noreferrer');
     }
   }
@@ -158,18 +158,23 @@ export default {
 }
 
 .download-cv {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  padding: 10px 20px;
   background-color: var(--primary-color);
-  color: var(--white);
-  padding: 0.8rem 1.5rem;
+  color: #fff;
+  border: none;
   border-radius: 5px;
-  transition: transform 0.3s ease;
+  cursor: pointer;
+  transition: background-color var(--transition);
 }
 
 .download-cv:hover {
-  transform: translateY(-2px);
+  background-color: var(--accent-color);
+}
+
+.download-cv i {
+  margin-right: 8px;
 }
 
 .experience-section,
@@ -280,6 +285,5 @@ h3 {
   .current-positions {
     grid-template-columns: 1fr;
   }
-
 }
 </style>
