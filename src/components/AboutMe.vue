@@ -16,10 +16,13 @@
       </div>
 
       <div class="about__content">
-        <div class="experience-section">
+        <div class="experience-section" ref="experienceSection">
           <h3><i class="fas fa-briefcase"></i> Aktuelle Positionen</h3>
           <div class="current-positions">
-            <div v-for="(position, index) in currentPositions" :key="index" class="position-card">
+            <div v-for="(position, index) in currentPositions" 
+                 :key="index" 
+                 class="position-card"
+                 :class="{ 'animate': animateElements }">
               <img :src="position.logo" :alt="position.company" />
               <div class="position-info">
                 <h4>{{ position.title }}</h4>
@@ -44,10 +47,13 @@
           </div>
         </div>
 
-        <div class="skills-section">
+        <div class="skills-section" ref="skillsSection">
           <h3><i class="fas fa-tools"></i> Kernkompetenzen</h3>
           <div class="skills-grid">
-            <div v-for="(skill, index) in skills" :key="index" class="skill-item">
+            <div v-for="(skill, index) in skills" 
+                 :key="index" 
+                 class="skill-item"
+                 :class="{ 'animate': animateElements }">
               <span class="skill-name">{{ skill }}</span>
             </div>
           </div>
@@ -111,8 +117,22 @@ export default {
         'ERP-Systeme',
         'Projektmanagement',
         'Datenbanken & SQL'
-      ]
+      ],
+      animateElements: false
     };
+  },
+  mounted() {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          this.animateElements = true;
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    
+    observer.observe(this.$refs.experienceSection);
   },
   methods: {
     downloadCV() {
@@ -204,6 +224,18 @@ h3 {
   background-color: var(--background-color);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.position-card.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.position-card:nth-child(2) {
+  transition-delay: 0.2s;
 }
 
 .position-card img {

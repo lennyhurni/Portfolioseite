@@ -1,20 +1,25 @@
 <template>
-  <section id="skills" class="main-section fade-in">
+  <section id="skills" class="main-section fade-in" ref="skillsSection">
     <div class="container">
       <h2>Meine Fähigkeiten</h2>
       <div class="skills-grid">
         <div class="skill-item" v-for="skill in skills" :key="skill.name">
-          <div class="circle-chart" :data-percent="skill.level">
+          <div class="circle-chart">
             <svg viewBox="0 0 36 36">
-              <path class="circle-bg"
+              <path
+                class="circle-bg"
                 d="M18 2.0845
                   a 15.9155 15.9155 0 0 1 0 31.831
-                  a 15.9155 15.9155 0 0 1 0 -31.831"/>
-              <path class="circle"
-                :stroke-dasharray="skill.level + ', 100'"
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path
+                class="circle"
+                :class="{ animate: animateSkills }"
+                :style="{ '--target-progress': skill.level }"
                 d="M18 2.0845
                   a 15.9155 15.9155 0 0 1 0 31.831
-                  a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
             </svg>
             <span>{{ skill.level }}%</span>
           </div>
@@ -30,46 +35,45 @@ export default {
   data() {
     return {
       skills: [
+        { name: 'JavaScript', level: 90 },
+        { name: 'Vue.js', level: 85 },
+        { name: 'CSS', level: 80 },
         { name: 'HTML', level: 90 },
-        { name: 'CSS', level: 85 },
-        { name: 'JavaScript', level: 80 },
-        { name: 'Vue.js', level: 75 },
         { name: 'Node.js', level: 70 },
         { name: 'Python', level: 65 },
         { name: 'Datenbanken', level: 60 },
         { name: 'Git', level: 80 },
         { name: 'Docker', level: 50 },
       ],
+      animateSkills: false,
     };
   },
   mounted() {
-    this.observeCharts();
-  },
-  methods: {
-    observeCharts() {
-      const options = { threshold: 0.3 };
-      const observer = new IntersectionObserver(this.animateCharts, options);
-      const charts = this.$el.querySelectorAll('.circle-chart');
-      charts.forEach(chart => {
-        observer.observe(chart);
-      });
-    },
-    animateCharts(entries, observer) {
-      entries.forEach(entry => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
         if (entry.isIntersecting) {
-          const chart = entry.target;
-          const percent = chart.getAttribute('data-percent');
-          const circle = chart.querySelector('.circle');
-          circle.style.strokeDasharray = percent + ', 100';
-          observer.unobserve(chart);
+          this.animateSkills = true;
+          observer.disconnect();
         }
-      });
-    },
-  },
+      },
+      { threshold: 0.3 }
+    );
+    
+    observer.observe(this.$refs.skillsSection);
+  }
 };
 </script>
 
 <style scoped>
+.main-section {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.main-section.fade-in {
+  opacity: 1;
+}
+
 .skills-grid {
   display: flex;
   flex-wrap: wrap;
@@ -93,7 +97,6 @@ export default {
 }
 
 .circle-chart svg {
-  transform: rotate(-90deg);
   width: 100%;
   height: 100%;
 }
@@ -110,7 +113,20 @@ export default {
 .circle {
   stroke: var(--accent-color);
   stroke-linecap: round;
-  animation: progress 1.5s ease-out forwards;
+  stroke-dasharray: 0, 100;
+}
+
+.circle.animate {
+  animation: progress 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0, 100;
+  }
+  100% {
+    stroke-dasharray: var(--target-progress), 100;
+  }
 }
 
 .circle-chart span {
@@ -120,12 +136,6 @@ export default {
   transform: translate(-50%, -50%);
   font-size: 1.2rem;
   color: var(--text-color);
-}
-
-@keyframes progress {
-  0% {
-    stroke-dasharray: 0 100;
-  }
 }
 
 .skill-item h3 {

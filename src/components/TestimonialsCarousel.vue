@@ -10,7 +10,7 @@
           :class="{ active: index === currentSlide }"
         >
           <img :src="testimonial.image" :alt="'Foto von ' + testimonial.author" />
-          <p>"{{ testimonial.quote }}"</p>
+          <p>{{ testimonial.quote }}</p>
           <h4>- {{ testimonial.author }}, {{ testimonial.position }}</h4>
         </div>
       </div>
@@ -69,13 +69,16 @@ export default {
   methods: {
     nextSlide() {
       this.currentSlide = (this.currentSlide + 1) % this.testimonials.length;
+      this.resetAutoplay();
     },
     prevSlide() {
       this.currentSlide =
         (this.currentSlide - 1 + this.testimonials.length) % this.testimonials.length;
+      this.resetAutoplay();
     },
     goToSlide(index) {
       this.currentSlide = index;
+      this.resetAutoplay();
     },
     startAutoplay() {
       if (!this.autoplayInterval) {
@@ -85,6 +88,10 @@ export default {
     stopAutoplay() {
       clearInterval(this.autoplayInterval);
       this.autoplayInterval = null;
+    },
+    resetAutoplay() {
+      this.stopAutoplay();
+      this.startAutoplay();
     },
   },
   beforeUnmount() {
@@ -117,11 +124,13 @@ export default {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  pointer-events: none; /* Inactive testimonials don't receive mouse events */
 }
 
 .testimonial.active {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto; /* Active testimonial receives mouse events */
 }
 
 .testimonial img {
@@ -131,10 +140,13 @@ export default {
   object-fit: cover;
   margin-bottom: 1.5rem;
   border: 4px solid var(--color-primary);
-  transition: transform 0.3s ease;
 }
 
-.testimonial img:hover {
+.testimonial.active img {
+  transition: transform 0.5s ease;
+}
+
+.testimonial.active img:hover {
   transform: rotate(360deg);
 }
 
