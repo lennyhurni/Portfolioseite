@@ -5,16 +5,23 @@
       <div class="modal-content">
         <span class="close-button" @click="closeModal">&times;</span>
         <h2>{{ post.title }}</h2>
-        <img :src="post.image" alt="Bild zu {{ post.title }}" />
-        <p>{{ post.content }}</p>
+        <img :src="post.image" :alt="post.title" />
+        <div v-html="compiledMarkdown"></div>
       </div>
     </div>
   </teleport>
 </template>
 
 <script>
+import { marked } from 'marked';
+
 export default {
   props: ['post', 'isVisible'],
+  computed: {
+    compiledMarkdown() {
+      return this.post ? marked(this.post.content) : '';
+    }
+  },
   emits: ['close'],
   methods: {
     closeModal() {
