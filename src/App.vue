@@ -8,7 +8,7 @@
         <div class="welcome-3d" :style="mouseStyle">
           <div class="text-wrapper">
             <div class="text-animation">
-              <span class="letter" v-for="(letter, index) in 'Wilkommen'" :key="index" 
+              <span class="letter" v-for="(letter, index) in 'Willkommen'" :key="index" 
                     :style="{ '--delay': `${index * 0.1}s` }">
                 {{ letter }}
               </span>
