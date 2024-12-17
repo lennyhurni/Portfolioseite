@@ -20,7 +20,7 @@
       </div>
       <div class="theme-toggle">
         <label class="switch">
-          <input type="checkbox" v-model="isDarkMode" @change="toggleTheme" />
+          <input type="checkbox" v-model="isDarkMode" />
           <span class="slider round"></span>
         </label>
         <span class="theme-label">{{ isDarkMode ? 'Dark Mode' : 'Light Mode' }}</span>
@@ -73,9 +73,12 @@ export default {
       this.isMenuOpen = !this.isMenuOpen;
     },
     toggleTheme() {
+      this.isDarkMode = !this.isDarkMode;
       this.currentTheme = this.isDarkMode ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', this.currentTheme);
-      console.log(`Theme toggled to: ${this.currentTheme}`);
+
+      // Speichere die Einstellung im lokalen Speicher
+      localStorage.setItem('isDarkMode', this.isDarkMode);
     },
     navigateTo(section) {
       this.isMenuOpen = false;
@@ -92,11 +95,24 @@ export default {
     },
   },
   mounted() {
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.isDarkMode = prefersDark;
+    const savedTheme = localStorage.getItem('isDarkMode');
+    if (savedTheme !== null) {
+      // Verwende die gespeicherte Einstellung
+      this.isDarkMode = savedTheme === 'true';
+    } else {
+      // Fallback auf die Systemeinstellung
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.isDarkMode = prefersDark;
+    }
     this.currentTheme = this.isDarkMode ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', this.currentTheme);
-    console.log(`Initial theme set to: ${this.currentTheme}`);
+  },
+  watch: {
+    isDarkMode(newValue) {
+      this.currentTheme = newValue ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', this.currentTheme);
+      localStorage.setItem('isDarkMode', newValue);
+    }
   },
 };
 </script>
