@@ -49,7 +49,9 @@
     
     <!-- Existierender Header -->
     <header class="header">
-      <div class="header__logo">Lenny Hurni</div>
+      <div class="header__logo">
+      <a href="#" @click.prevent="scrollToTop">Lenny Hurni</a>
+      </div>
       <nav class="nav" :class="{ 'nav--open': isMenuOpen }">
         <ul>
           <li><a href="#about" @click.prevent="navigateTo('#about')">Über mich</a></li>
@@ -145,6 +147,12 @@ export default defineComponent({
     navigateTo(section) {
       this.isMenuOpen = false;
       this.scrollTo(section);
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
     },
     scrollTo(section) {
       const target = document.querySelector(section);
@@ -471,6 +479,16 @@ main {
   stroke-width: 2;
   opacity: 0.3;
   animation: pathDraw 3s infinite;
+}
+
+.header__logo a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.header__logo a:hover {
+  color: var(--primary-color-hover);
 }
 
 @keyframes letterAppear {
