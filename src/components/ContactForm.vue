@@ -30,7 +30,9 @@
           <span v-if="errors.message" class="error">{{ errors.message }}</span>
         </div>
 
-        <button type="submit">Senden</button>
+      <button type="submit" class="custom-button">
+        <i class="fas fa-paper-plane"></i> Senden
+      </button>
       </form>
       <!-- Erfolgsnachricht -->
       <transition name="fade">
@@ -45,8 +47,17 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 export default {
+  props: {
+    currentTheme: {
+      type: String,
+      default: 'light'
+    }
+  },
   data() {
     return {
+      map: null,
+      marker: null,
+      tileLayer: null,
       form: {
         name: '',
         email: '',
@@ -56,41 +67,79 @@ export default {
       successMessage: '',
     };
   },
-  mounted() {
-    this.initMap();
+  watch: {
+    currentTheme: {
+      handler(newTheme) {
+        if (this.map) {
+          this.updateMapStyle(newTheme);
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     initMap() {
-      const map = L.map('map').setView([46.947, 7.447], 13);
+      this.$nextTick(() => { // Sicherstellen, dass das DOM komplett gerendert ist
+        const coordinates = [46.9480, 7.4474]; // Bern coordinates
 
-      // Dark Mode Tile Layer
-      const darkModeTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
+        if (!this.map) {
+          // Karte initialisieren
+          this.map = L.map('map', {
+            center: coordinates,
+            zoom: 14,
+            zoomControl: false
+          });
+
+          // Zoom-Button hinzufügen
+          L.control.zoom({
+            position: 'topright'
+          }).addTo(this.map);
+
+          // Standard-Tile-Layer (immer Light Mode)
+          this.tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '©OpenStreetMap',
+            maxZoom: 19,
+          }).addTo(this.map);
+
+          // Benutzerdefinierter Marker
+          const customIcon = L.icon({
+            iconUrl: require('@/assets/Images/pin-icon.png'), // Korrigierter Pfad
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40]
+          });
+
+          // Marker hinzufügen mit Popup
+          this.marker = L.marker(coordinates, { icon: customIcon })
+            .addTo(this.map)
+            .bindPopup('<strong>Lenny Hurni</strong><br>Bern, Schweiz')
+            .openPopup();
+        }
+      });
+    },
+    updateMapStyle(theme) {
+      if (!this.map) return;
+
+      // Nur Popup und Zoom-Controls anpassen
+      const isDark = theme === 'dark';
+
+      // Popups anpassen
+      const popups = document.querySelectorAll('.leaflet-popup-content-wrapper, .leaflet-popup-tip');
+      popups.forEach(popup => {
+        popup.style.backgroundColor = isDark ? '#1a1a1a' : '#ffffff';
+        popup.style.color = isDark ? '#ffffff' : '#000000';
       });
 
-      // Light Mode Tile Layer
-      const lightModeTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      // Zoom-Controls anpassen (keine Tile-Layer Anpassung mehr)
+      const zoomButtons = document.querySelectorAll('.leaflet-control-zoom a');
+      zoomButtons.forEach(button => {
+        button.style.backgroundColor = isDark ? '#1a1a1a' : 'var(--background-color)';
+        button.style.color = isDark ? '#ffffff' : 'var(--text-color)';
+        button.style.borderColor = 'var(--border-color)';
       });
 
-      // Add the appropriate tile layer based on the current theme
-      if (document.documentElement.getAttribute('data-theme') === 'dark') {
-        darkModeTileLayer.addTo(map);
-      } else {
-        lightModeTileLayer.addTo(map);
-      }
-
-      // Custom Icon
-      const customIcon = L.icon({
-        iconUrl: require('@/assets/Images/pin-icon.png'), // Pfad zu Ihrem benutzerdefinierten Stecknadel-Icon
-        iconSize: [38, 38], // Größe des Icons
-        iconAnchor: [22, 38], // Punkt des Icons, der auf den Marker zeigt
-        popupAnchor: [-3, -38] // Punkt, von dem aus das Popup relativ zum Icon geöffnet wird
-      });
-
-      L.marker([46.947, 7.447], { icon: customIcon }).addTo(map).bindPopup('Mein Standort').openPopup();
+      // Hover-Effekt für Zoom-Buttons
+      // Dieser wird bereits durch CSS gehandhabt
     },
     validateField(field) {
       if (field === 'name' && !this.form.name) {
@@ -104,39 +153,51 @@ export default {
           delete this.errors.email;
         }
       } else if (field === 'message' && !this.form.message) {
-        this.errors.message = 'Bitte gib eine Nachricht ein.';
+        this.errors.message = 'Bitte gib deine Nachricht ein.';
       } else {
         delete this.errors[field];
       }
     },
+    submitForm() {
+      if (this.validateForm()) {
+        // Formular verarbeiten
+        this.successMessage = 'Nachricht erfolgreich gesendet!';
+        // Formular zurücksetzen
+        this.form = { name: '', email: '', message: '' };
+      }
+    },
     validateForm() {
       this.errors = {};
+
       this.validateField('name');
       this.validateField('email');
       this.validateField('message');
+
       return Object.keys(this.errors).length === 0;
-    },
-    submitForm() {
-      if (this.validateForm()) {
-        // Sende das Formular
-        this.successMessage = 'Vielen Dank für deine Nachricht!';
-        // Formular zurücksetzen
-        this.form = { name: '', email: '', message: '' };
-        // Erfolgsmeldung nach 5 Sekunden ausblenden
-        setTimeout(() => {
-          this.successMessage = '';
-        }, 5000);
-      }
-    },
+    }
   },
+  mounted() {
+    this.initMap();
+  },
+  beforeUnmount() {
+    if (this.map) {
+      this.map.remove();
+      this.map = null;
+    }
+  }
 };
 </script>
 
 <style scoped>
 .map {
-  height: 300px;
-  margin-bottom: 20px;
+  width: 100%;
+  height: 400px;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -183,17 +244,6 @@ export default {
 
 .contact-form button {
   align-self: flex-start;
-  background-color: var(--primary-color);
-  color: var(--white);
-  padding: 12px 25px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s;
-  border-radius: 5px;
-}
-
-.contact-form button:hover {
-  background-color: #3a3fbd;
 }
 
 .error {
@@ -216,6 +266,32 @@ export default {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* Custom popup styles */
+:deep(.leaflet-popup-content-wrapper) {
+  background: var(--background-color);
+  color: var(--text-color);
+  border-radius: 8px;
+}
+
+:deep(.leaflet-popup-tip) {
+  background: var(--background-color);
+}
+
+:deep(.leaflet-container) {
+  font-family: var(--font-family);
+}
+
+:deep(.leaflet-control-zoom a) {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+:deep(.leaflet-control-zoom a:hover) {
+  background-color: var(--primary-color) !important;
+  color: var(--white) !important;
 }
 
 /* Icons Styling */

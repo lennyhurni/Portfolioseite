@@ -9,7 +9,7 @@
         <div class="about__intro">
           <h2>Über mich</h2>
           <p class="about__description">{{ intro }}</p>
-          <button class="download-cv" @click="downloadCV">
+          <button @click="downloadCV" class="custom-button">
             <i class="fas fa-download"></i> Lebenslauf herunterladen
           </button>
         </div>
@@ -135,9 +135,11 @@ export default {
     observer.observe(this.$refs.experienceSection);
   },
   methods: {
-    downloadCV() {
-      const cvPath = '/Lebenslauf_Lenny.html'; // Korrigierter Pfad zum Lebenslauf
-      window.open(cvPath, '_blank', 'noopener,noreferrer');
+    downloadCV(event) {
+      event.preventDefault();
+      const baseUrl = process.env.BASE_URL || '';
+      const cvUrl = `${baseUrl}Lebenslauf_Lenny.html`;
+      window.open(cvUrl, '_blank', 'noopener,noreferrer');
     }
   }
 };
@@ -175,26 +177,6 @@ export default {
   line-height: 1.8;
   margin: 1.5rem 0;
   color: var(--text-color);
-}
-
-.download-cv {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: var(--primary-color);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color var(--transition);
-}
-
-.download-cv:hover {
-  background-color: var(--accent-color);
-}
-
-.download-cv i {
-  margin-right: 8px;
 }
 
 .experience-section,
@@ -299,6 +281,7 @@ h3 {
 .skill-item:hover {
   transform: translateY(-2px);
 }
+
 
 @media (max-width: 768px) {
   .about__header {

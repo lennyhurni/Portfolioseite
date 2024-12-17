@@ -33,6 +33,7 @@ import { marked } from 'marked';
 
 export default {
   props: ['post', 'isVisible'],
+  emits: ['close'],
   data() {
     return {
       isImageZoomed: false

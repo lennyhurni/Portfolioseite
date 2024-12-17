@@ -1,6 +1,53 @@
 <!-- src/App.vue -->
 <template>
-  <div id="app" :data-theme="currentTheme">
+  <div class="app-container">
+    <!-- Loading Overlay als erstes Element -->
+    <div v-if="isLoading" class="loading-overlay" @mousemove="handleMouseMove">
+      <div class="loading-content">
+        <!-- Updated Text Animation -->
+        <div class="welcome-3d" :style="mouseStyle">
+          <div class="text-wrapper">
+            <div class="text-animation">
+              <span class="letter" v-for="(letter, index) in 'Wilkommen'" :key="index" 
+                    :style="{ '--delay': `${index * 0.1}s` }">
+                {{ letter }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Animated SVG Background -->
+        <div class="svg-background">
+          <svg viewBox="0 0 200 200">
+            <path class="path-animation" d="M10,10 C50,100 150,100 190,10" />
+            <path class="path-animation" d="M10,90 C50,0 150,0 190,90" />
+          </svg>
+        </div>
+        
+        <!-- Enhanced Particle System -->
+        <div class="particle-container">
+          <div v-for="n in 40" :key="n" 
+               class="particle" 
+               :class="{ 'particle-glow': n % 3 === 0 }"
+               :style="{ 
+                 '--delay': `${n * 0.1}s`, 
+                 '--angle': `${n * 9}deg`,
+                 '--radius': `${100 + (n % 3) * 30}px`
+               }">
+          </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="loading-progress">
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <div class="loading-text"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Existierender Header -->
     <header class="header">
       <div class="header__logo">Lenny Hurni</div>
       <nav class="nav" :class="{ 'nav--open': isMenuOpen }">
@@ -26,6 +73,8 @@
         <span class="theme-label">{{ isDarkMode ? 'Dark Mode' : 'Light Mode' }}</span>
       </div>
     </header>
+
+    <!-- Existierender Content -->
     <main>
       <AboutMe :currentTheme="currentTheme" />
       <SkillsWidget />
@@ -35,6 +84,8 @@
       <ContactForm />
       <WeatherWidget />
     </main>
+
+    <!-- Existierender Footer -->
     <footer class="footer">
       <p>&copy; 2024 - Lenny Hurni. Alle Rechte vorbehalten.</p>
     </footer>
@@ -42,6 +93,7 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import AboutMe from '@/components/AboutMe.vue';
 import SkillsWidget from '@/components/SkillsWidget.vue';
 import ProjectList from '@/components/ProjectList.vue';
@@ -50,7 +102,7 @@ import BlogPosts from '@/components/BlogPosts.vue';
 import ContactForm from '@/components/ContactForm.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
     AboutMe,
@@ -63,10 +115,20 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       isMenuOpen: false,
       isDarkMode: false,
       currentTheme: 'light',
+      mouseX: 0,
+      mouseY: 0,
     };
+  },
+  computed: {
+    mouseStyle() {
+      return {
+        transform: `rotateX(${(this.mouseY - 50) * 0.1}deg) rotateY(${(this.mouseX - 50) * 0.1}deg)`
+      }
+    }
   },
   methods: {
     toggleMenu() {
@@ -93,6 +155,10 @@ export default {
         });
       }
     },
+    handleMouseMove(e) {
+      this.mouseX = (e.clientX / window.innerWidth) * 100
+      this.mouseY = (e.clientY / window.innerHeight) * 100
+    }
   },
   mounted() {
     const savedTheme = localStorage.getItem('isDarkMode');
@@ -106,6 +172,11 @@ export default {
     }
     this.currentTheme = this.isDarkMode ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', this.currentTheme);
+
+    // Simuliere einen Ladevorgang von 3 Sekunden
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 3000);
   },
   watch: {
     isDarkMode(newValue) {
@@ -114,7 +185,7 @@ export default {
       localStorage.setItem('isDarkMode', newValue);
     }
   },
-};
+});
 </script>
 
 <style scoped>
@@ -317,6 +388,150 @@ main {
   border-top: 1px solid var(--border-color);
   position: relative;
   z-index: 1;
+}
+
+/* Füge die Loading-Styles am Ende der Style-Sektion hinzu */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.loading-content {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.welcome-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-out;
+}
+
+.text-wrapper {
+  position: relative;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  margin-bottom: 2rem;
+}
+
+.text-animation {
+  position: relative;
+  white-space: nowrap;
+  transform-style: preserve-3d;
+}
+
+.letter {
+  display: inline-block;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  padding: 0 0.1em;
+  transform-origin: center center;
+  animation: letterReveal 0.8s var(--delay) forwards;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  transform-origin: center var(--radius);
+  animation: orbitAndPulse 4s var(--delay) infinite;
+}
+
+.particle-glow {
+  box-shadow: 0 0 20px var(--primary-color);
+}
+
+.svg-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.path-animation {
+  fill: none;
+  stroke: var(--primary-color);
+  stroke-width: 2;
+  opacity: 0.3;
+  animation: pathDraw 3s infinite;
+}
+
+@keyframes letterAppear {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg) translateY(30px) scale(0.8);
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0) translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes letterReveal {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg) translateY(20px) scale(0.8);
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0) translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes orbitAndPulse {
+  0% {
+    transform: rotate(var(--angle)) translateX(var(--radius)) scale(1);
+  }
+  50% {
+    transform: rotate(calc(var(--angle) + 180deg)) translateX(var(--radius)) scale(1.5);
+  }
+  100% {
+    transform: rotate(calc(var(--angle) + 360deg)) translateX(var(--radius)) scale(1);
+  }
+}
+
+@keyframes pathDraw {
+  0% {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+  }
+  50% {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dasharray: 300;
+    stroke-dashoffset: -300;
+  }
 }
 </style>
 

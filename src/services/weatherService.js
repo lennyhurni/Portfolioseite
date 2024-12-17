@@ -1,8 +1,6 @@
-// weatherService.js
-
 import axios from 'axios';
 
-const API_KEY = '174d91032b3710ff1385521b246120ba';
+const API_KEY = process.env.VUE_APP_WEATHER_API_KEY;
 
 const weatherService = {
   getWeather() {
