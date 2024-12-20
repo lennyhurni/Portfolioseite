@@ -1,5 +1,5 @@
 <template>
-  <section id="about" class="main-section fade-in">
+  <section id="about" class="main-section" :class="{ 'fade-in': !isLoading }">
     <div class="container">
       <div class="about__header flex align-center">
         <div class="about__image">
@@ -72,6 +72,10 @@ export default {
       type: String,
       default: 'light',
     },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     ThreeDBackground,
@@ -122,30 +126,20 @@ export default {
     };
   },
   mounted() {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          this.animateElements = true;
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        this.animateElements = true;
+      } else {
+        this.animateElements = false; 
+      }
+    }, { threshold: 0.3 });
+
     observer.observe(this.$refs.experienceSection);
-  },
-  methods: {
-    downloadCV(event) {
-      event.preventDefault();
-      const baseUrl = process.env.BASE_URL || '';
-      const cvUrl = `${baseUrl}Lebenslauf_Lenny.html`;
-      window.open(cvUrl, '_blank', 'noopener,noreferrer');
-    }
   }
 };
 </script>
 
-<style scoped>
+<style>
 .about__header {
   margin-bottom: 4rem;
 }
