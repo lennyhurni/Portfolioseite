@@ -135,8 +135,18 @@ export default {
     }, { threshold: 0.3 });
 
     observer.observe(this.$refs.experienceSection);
+  },
+  
+  methods: {
+    downloadCV(event) {
+      event.preventDefault();
+      const baseUrl = process.env.BASE_URL || '';
+      const cvUrl = `${baseUrl}Lebenslauf_Lenny.html`;
+      window.open(cvUrl, '_blank', 'noopener,noreferrer');
+    }
   }
 };
+
 </script>
 
 <style>
