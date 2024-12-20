@@ -78,7 +78,7 @@
 
     <!-- Existierender Content -->
     <main>
-      <AboutMe :currentTheme="currentTheme" />
+      <AboutMe :currentTheme="currentTheme" :isLoading="isLoading" />
       <SkillsWidget />
       <ProjectList />
       <TestimonialsCarousel />
@@ -144,9 +144,20 @@ export default defineComponent({
       // Speichere die Einstellung im lokalen Speicher
       localStorage.setItem('isDarkMode', this.isDarkMode);
     },
-    navigateTo(section) {
+    navigateTo(selector) {
+      const element = document.querySelector(selector);
+      if (element) {
+        const headerOffset = 70; // adjust to match your header height
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+      }
+      // Close menu if needed
       this.isMenuOpen = false;
-      this.scrollTo(section);
     },
     scrollToTop() {
       window.scrollTo({
@@ -219,6 +230,17 @@ export default defineComponent({
   transition: color var(--transition);
 }
 
+.header__logo a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.header__logo a:hover {
+  color: var(--primary-color-hover);
+}
+
+/* Navigation Styles */
 .nav {
   display: flex;
   align-items: center;
@@ -287,6 +309,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  z-index: 1;
 }
 
 .theme-label {
@@ -320,7 +343,7 @@ export default defineComponent({
   bottom: 0;
 }
 
-.slider:before {
+.slider::before {
   position: absolute;
   content: "";
   height: 16px;
@@ -336,47 +359,8 @@ input:checked + .slider {
   background-color: var(--primary-color);
 }
 
-input:checked + .slider:before {
+input:checked + .slider::before {
   transform: translateX(20px);
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .nav {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 70px);
-    background-color: var(--background-color);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .nav.nav--open {
-    transform: translateX(0);
-  }
-
-  .nav ul {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-
-  .header {
-    padding: 15px;
-  }
-
-  .header__logo {
-    font-size: 1.2rem;
-  }
 }
 
 /* Main Content Styles */
@@ -398,7 +382,7 @@ main {
   z-index: 1;
 }
 
-/* Füge die Loading-Styles am Ende der Style-Sektion hinzu */
+/* Loading Overlay Styles */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -481,33 +465,7 @@ main {
   animation: pathDraw 3s infinite;
 }
 
-.header__logo a {
-  color: var(--primary-color);
-  text-decoration: none;
-  transition: color var(--transition);
-}
-
-.header__logo a:hover {
-  color: var(--primary-color-hover);
-}
-
-@keyframes letterAppear {
-  0% {
-    opacity: 0;
-    transform: rotateX(-90deg) translateY(30px) scale(0.8);
-    filter: blur(8px);
-  }
-  50% {
-    opacity: 0.5;
-    filter: blur(4px);
-  }
-  100% {
-    opacity: 1;
-    transform: rotateX(0) translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
+/* Animations */
 @keyframes letterReveal {
   0% {
     opacity: 0;
@@ -549,6 +507,83 @@ main {
   100% {
     stroke-dasharray: 300;
     stroke-dashoffset: -300;
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  /* Navigation */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--background-color);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .nav.nav--open {
+    transform: translateX(0);
+  }
+
+  .nav ul {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .header {
+    padding: 15px;
+  }
+
+  .header__logo {
+    font-size: 1.2rem;
+    z-index: 1;
+  }
+
+  /* Loading Screen */
+  .loading-content {
+    transform: scale(0.8);
+  }
+
+  .welcome-3d {
+    margin-bottom: 1.5rem;
+  }
+
+  .letter {
+    font-size: 2.5rem;
+  }
+
+  .particle {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-content {
+    transform: scale(0.6);
+  }
+
+  .welcome-3d {
+    margin-bottom: 1rem;
+  }
+
+  .letter {
+    font-size: 2rem;
+  }
+
+  .particle {
+    width: 3px;
+    height: 3px;
   }
 }
 </style>
